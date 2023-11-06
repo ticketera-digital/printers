@@ -2,8 +2,6 @@
 
 namespace Ticketeradigital\Printers;
 
-use Illuminate\Http\Client\Response;
-
 class PrintException extends \Exception
 {
     public function __construct(string $message)
@@ -14,6 +12,6 @@ class PrintException extends \Exception
 
     public function __toString()
     {
-        return __CLASS__ . ": {$this->message}\n";
+        return __CLASS__.": {$this->message}\n";
     }
 }
