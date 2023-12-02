@@ -18,7 +18,10 @@ class Printer extends Model
             'job' => $job,
         ];
         try {
-            Http::post(config('printers.proxy_url').'/print-job', $payload)->throw();
+            Http::post(config('printers.proxy_url').'/print-job', $payload)
+                ->timeout(env('PRINTER_PROXY_TIMEOUT', 5))
+                ->retry(env('PRINTER_PROXY_RETRIES', 3), env('PRINTER_PROXY_RETRY_WAIT', 100))
+                ->throw();
         } catch (RequestException $e) {
             throw new PrintException($e->response->json()['error']);
         } catch (ConnectionException $e) {
